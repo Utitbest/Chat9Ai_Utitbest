@@ -497,7 +497,7 @@ async function ButtonsAreas(){
     }
     showDeleteButton()
   })
-  userPictureSpan.addEventListener('click', ()=>{
+  userPicture.addEventListener('click', ()=>{
       userDetails.classList.toggle('sh')
   })
   previewAside.onclick = ()=>{
@@ -515,13 +515,15 @@ async function ButtonsAreas(){
     }
   })
   document.addEventListener('click', (event)=>{
-    
     if(window.innerWidth < 930 && asideView.classList.contains('asideView')){
-
       if(!previewAside.contains(event.target) && !asideView.contains(event.target)){
         asideView.classList.remove('asideView');
       }
+    }
 
+    if(!userPicture.contains(event.target) && !userDetails.contains(event.target)){
+      
+      userDetails.classList.remove('sh')
     }
   })
 
