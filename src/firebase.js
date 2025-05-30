@@ -5,8 +5,9 @@ import { getFirestore,  collection, addDoc, serverTimestamp, getDocs, query, ord
 
 
 // ✅ Paste your Firebase config here:
+const FirebaseAPI = process.env.FIREBASE_API_KEY;
 const firebaseConfig = {
-  apiKey: "AIzaSyBxPj_xXUe6rcOygi7AY-SUUPaFQ4WMEyM",
+  apiKey: FirebaseAPI,
   authDomain: "chat9-utitbest.firebaseapp.com",
   projectId: "chat9-utitbest",
   storageBucket: "chat9-utitbest.firebasestorage.app",
