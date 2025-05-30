@@ -471,7 +471,7 @@ signInBtn.addEventListener('click', () => {
     .catch((error) => {
       console.error("Sign-in error:", error);
     })
-    .finally(()=>{location.reload()})
+    // .finally(()=>{location.reload()})
 })
 
 signoutbudd.addEventListener('click', () => {
@@ -482,7 +482,7 @@ signoutbudd.addEventListener('click', () => {
     .catch((error) => {
       console.error("Sign-out error:", error);
     })
-    .finally(()=>{location.reload()})
+    // .finally(()=>{location.reload()})
 });
 
 async function ButtonsAreas(){
