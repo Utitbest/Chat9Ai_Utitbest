@@ -92,7 +92,7 @@ function UniqueId(){
 
 function NonAuthenticatedUser(){
     signInBtn.style.display = 'flex'
-    signInBtn.textContent = 'Sign In With Google Account';
+    signInBtn.textContent = 'Sign In';
     userPicture.style.display = 'none'
     document.querySelector('.chatoptions .menu-icon').style.display = 'none'
     document.querySelectorAll('.others span').forEach((el) => el.style.display = 'none')
