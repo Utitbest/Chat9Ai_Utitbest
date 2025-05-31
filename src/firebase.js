@@ -3,9 +3,6 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { getFirestore,  collection, addDoc, serverTimestamp, getDocs, query, orderBy, limit,  doc, deleteDoc} from "firebase/firestore";
 
-
-// ✅ Paste your Firebase config here:
-
 const firebaseConfig = {
   apiKey: "AIzaSyBxPj_xXUe6rcOygi7AY-SUUPaFQ4WMEyM",
   authDomain: "chat9-utitbest.firebaseapp.com",

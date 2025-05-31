@@ -14,9 +14,10 @@ const signInBtn = document.getElementsByClassName('singine')[0];
 const userPicture = document.getElementById('suerimge');
 const asideView = document.getElementsByTagName('aside')[0];
 const previewAside = document.getElementsByClassName('menu-iconx')[0];
-const userPictureSpan = document.getElementsByClassName('useriocn')[0]
+const ArrowMouth = document.getElementsByClassName('ArrowMouth')[0]
 const userrealphoto = document.getElementsByClassName('userrealphoto')[0]
 const userEmail = document.getElementsByClassName('userEmail')[0]
+const userEmail1 = document.getElementsByClassName('userEmail1')[0]
 const userDetails = document.getElementsByClassName('userDetails')[0]
 const signoutbudd = document.getElementsByClassName('signoutbudd')[0]
 const chatcontainer = document.getElementsByClassName('chatcontainer')[0]
@@ -25,10 +26,13 @@ const SendButton = document.getElementById('SendButton')
 const App = document.getElementById('app');
 const previous_ChatContainer = document.getElementsByClassName('previous-data')[0]
 const NewChatIcon = document.getElementById('NewChatIcon')
+
+
 let activeThreadId = null;
 const hideit = document.getElementsByClassName('tohide')[0]
 const deleTe = document.getElementsByClassName('deleTe')[0];
 
+ 
 
 function initApp(){
   auth.onAuthStateChanged((user) => {
@@ -49,8 +53,8 @@ function WhenUserIsAuthenticated(user){
   userPicture.style.display = 'flex'
   userPicture.src= user.photoURL;
   userrealphoto.src = user.photoURL
-  userEmail.innerHTML = user.displayName +'</br>'+ user.email;
-
+  userEmail.innerHTML = user.displayName 
+  userEmail1.innerHTML = user.email
 
   previewAside.style.display = 'flex';
   previewAside.style.visibility = 'visible';
@@ -97,7 +101,6 @@ function NonAuthenticatedUser(){
     document.querySelector('.chatoptions .menu-icon').style.display = 'none'
     document.querySelectorAll('.others span').forEach((el) => el.style.display = 'none')
 }
-
 
 function callGemini(prompt, loadingContainer, threadRef, currentUserId, SendButton){
   fetch('/.netlify/functions/generateContent', {
@@ -166,7 +169,7 @@ SendButton.addEventListener('click', async ()=>{
           if(!activeThreadId && defaultDisplayed) {
             const threadRef = await addDoc(collection(db, "users", currentUserId, "threads"), {
             createdAt: Date.now(),
-            title: textareaValue.slice(0, 10) || "New Chat"
+            title: textareaValue.slice(0, 20) || "New Chat"
           });
           
           activeThreadId = threadRef.id;
@@ -176,7 +179,8 @@ SendButton.addEventListener('click', async ()=>{
         }
         
           UserMessageTag(textareaValue)
-          chatcontainer.scrollTop = chatcontainer.scrollHeight;
+          // chatcontainer.scrollTop = chatcontainer.scrollHeight;
+          DetectAndAddArrow()
 
           let finalPrompt = textareaValue;
           if (activeThreadId) {
@@ -231,6 +235,7 @@ function UserMessageTag(textareaValue){
   messagediv.append(usermessaetage)
   UserRequest.append(messagediv)
   chatcontainer.append(UserRequest);
+  DetectAndAddArrow()
 }
 function buildPromptFromMessages(messages, newInput) {
   const chatHistory = messages.map(m => {
@@ -293,6 +298,7 @@ async function LoadPreviousChat(threadId, userId) {
       container.innerHTML = msg.html || '';
       container.className = "ai-text-wrapper"; 
       chatcontainer.appendChild(container);
+      DetectAndAddArrow()
       const CodeBlock = container.querySelectorAll("pre code, code")
       CodeBlock.forEach(block => {
         if (block && block.textContent) {
@@ -470,6 +476,7 @@ signInBtn.addEventListener('click', () => {
     })
     .catch((error) => {
       console.error("Sign-in error:", error);
+      ErrorHandler(error)
     })
     .finally(()=>{location.reload()})
 })
@@ -481,6 +488,7 @@ signoutbudd.addEventListener('click', () => {
     })
     .catch((error) => {
       console.error("Sign-out error:", error);
+      ErrorHandler(error)
     })
     .finally(()=>{location.reload()})
 });
@@ -498,14 +506,14 @@ async function ButtonsAreas(){
     showDeleteButton()
   })
   userPicture.addEventListener('click', ()=>{
-      userDetails.classList.toggle('sh')
+    userDetails.classList.toggle('sh')
   })
   previewAside.onclick = ()=>{
     asideView.classList.toggle('asideView')
   }
   MessageContent.addEventListener('keydown', (e)=>{
     if(e.key === 'Enter' && !e.shiftKey){
-        e.preventDefault()
+      e.preventDefault()
       SendButton.click()
     }
   })
@@ -521,17 +529,33 @@ async function ButtonsAreas(){
       }
     }
 
-    if(!userPicture.contains(event.target) && !userDetails.contains(event.target)){
-      
+    if(!userPicture.contains(event.target) && userDetails.classList.contains('sh')){
       userDetails.classList.remove('sh')
     }
   })
 
  
 }
+
+function DetectAndAddArrow() {
+    const canScroll = chatcontainer.scrollHeight > chatcontainer.clientHeight;
+    const atBottom = chatcontainer.scrollTop + chatcontainer.clientHeight >= chatcontainer.scrollHeight - 10;
+
+    if (canScroll && !atBottom) {
+      ArrowMouth.style.cssText = `display: flex;`
+    } else {
+      ArrowMouth.style.cssText = `display: none;`
+    }
+}
+
+  chatcontainer.addEventListener('scroll', DetectAndAddArrow);
+ArrowMouth.addEventListener('click', ()=>{
+  chatcontainer.scrollTo({top: chatcontainer.scrollHeight, behavior:'smooth'})
+})
+
+DetectAndAddArrow()
 ButtonsAreas()
 document.addEventListener('DOMContentLoaded', initApp)
-
 
 
 

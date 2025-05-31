@@ -5,9 +5,9 @@ import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import 'prismjs/components/prism-python.js';
 import 'prismjs/components/prism-javascript.js';
-import {ErrorHandler} from './utils/ErrorHandler.js';
 import { saveMessageToFirestore } from './utils/SendingcodeFirsbase.js';
 import {createCopyButton} from './utils/ButtonToCopyCode.js'
+
 
 export async function renderAIReply(markdownText, containerElement, threadId, userId, prompts, SendButton){
   // if(markdownText.toLowerCase().indexOf('ai:') === 0) {
@@ -35,7 +35,7 @@ export async function renderAIReply(markdownText, containerElement, threadId, us
       const text = node.textContent;
       for (let i = 0; i < text.length; i++) {
         span.textContent += text.charAt(i);
-        parentElemCont.scrollTop = parentElemCont.scrollHeight;
+        // parentElemCont.scrollTop = parentElemCont.scrollHeight;
         await new Promise(r => setTimeout(r, 8));
       }
     } else {
@@ -53,7 +53,7 @@ export async function renderAIReply(markdownText, containerElement, threadId, us
         codeEl.textContent = '';
         for (let i = 0; i < codeText.length; i++) {
           codeEl.textContent += codeText.charAt(i);
-          parentElemCont.scrollTop = parentElemCont.scrollHeight;
+          // parentElemCont.scrollTop = parentElemCont.scrollHeight;
           await new Promise(r => setTimeout(r, 8));
         }
         Prism.highlightElement(codeEl);
@@ -66,7 +66,7 @@ export async function renderAIReply(markdownText, containerElement, threadId, us
         }
         for (let i = 0; i < codeText.length; i++){
           el.textContent += codeText.charAt(i);
-          parentElemCont.scrollTop = parentElemCont.scrollHeight;
+          // parentElemCont.scrollTop = parentElemCont.scrollHeight;
           await new Promise(r => setTimeout(r, 8));
         }
         Prism.highlightElement(el);

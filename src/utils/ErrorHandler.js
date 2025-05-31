@@ -19,6 +19,12 @@ function ErrorHandler(d){
     errorHandler.classList.add('showErrorhandle')
     setTimeout(() => errorHandler.remove(), 300);
   } 
+
+  setTimeout(()=>{
+    if(errorHandler){
+      errorHandler.remove()
+    }
+  }, 8000)
   
 }
 
