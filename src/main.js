@@ -553,10 +553,5 @@ ArrowMouth.addEventListener('click', ()=>{
   chatcontainer.scrollTo({top: chatcontainer.scrollHeight, behavior:'smooth'})
 })
 
-DetectAndAddArrow()
 ButtonsAreas()
 document.addEventListener('DOMContentLoaded', initApp)
-
-
-
-
