@@ -499,6 +499,7 @@ async function ButtonsAreas(){
       userNameInChatContain()
       activeThreadId = null;
       deleTe.setAttribute('currentChat', '')
+      ArrowMouth.style.cssText = `display: none;`
       document.querySelectorAll('.previous-data span').forEach(el =>{
         el.classList.remove('sidebar')
       })
