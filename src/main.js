@@ -48,6 +48,7 @@ function initApp(){
     }
   });
 }
+
 function WhenUserIsAuthenticated(user){
   signInBtn.style.display = 'none'
   userPicture.style.display = 'flex'
@@ -149,14 +150,14 @@ function showDeleteButton(){
 }
 
 SendButton.addEventListener('click', async ()=>{
-
+  
   const textareaValue = MessageContent.value.trim()
   if(!textareaValue) return;
   if(navigator.onLine !== true){
     ErrorHandler('No internet connection!')
     return
   }
-
+  const nospacew = MessageContent.value
 
   MessageContent.value = '';
   SendButton.innerHTML = `<img src="/assets/sendBudSpinner.gif" alt="">`;
@@ -167,6 +168,7 @@ SendButton.addEventListener('click', async ()=>{
           const defaultDisplayed = chatcontainer.querySelector('.userNameDisplayer');
           const currentUserId = user.uid;
           if(!activeThreadId && defaultDisplayed) {
+
             const threadRef = await addDoc(collection(db, "users", currentUserId, "threads"), {
             createdAt: Date.now(),
             title: textareaValue.slice(0, 20) || "New Chat"
@@ -178,7 +180,7 @@ SendButton.addEventListener('click', async ()=>{
           addThreadToSidebar(activeThreadId, textareaValue.slice(0, 20), currentUserId);
         }
         
-          UserMessageTag(textareaValue)
+          UserMessageTag(nospacew)
           // chatcontainer.scrollTop = chatcontainer.scrollHeight;
           DetectAndAddArrow()
 
@@ -198,7 +200,7 @@ SendButton.addEventListener('click', async ()=>{
               text: textareaValue
             });
     }else{
-      UserMessageTag(textareaValue)
+      UserMessageTag(nospacew)
       chatcontainer.scrollTop = chatcontainer.scrollHeight;
       const loadingContainer = responsetext();
       callGemini(textareaValue, loadingContainer, null, null, SendButton)
@@ -468,6 +470,10 @@ function responsetext(){
   return aIReplys;
 }
 signInBtn.addEventListener('click', () => {
+  if(navigator.onLine !== true){
+    ErrorHandler('No internet connection!')
+    return
+  }
   signInWithPopup(auth, provider)
     .then((result) => {
       const user = result.user;
@@ -538,7 +544,7 @@ async function ButtonsAreas(){
  
 }
 
-function DetectAndAddArrow() {
+function DetectAndAddArrow(){
     const canScroll = chatcontainer.scrollHeight > chatcontainer.clientHeight;
     const atBottom = chatcontainer.scrollTop + chatcontainer.clientHeight >= chatcontainer.scrollHeight - 10;
 
